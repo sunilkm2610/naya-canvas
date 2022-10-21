@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import Auth from "./Auth/Auth";
+import Canvas from "./Canvas/Canvas";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 function App() {
+  const user = window.localStorage.getItem("user");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Auth />} />
+
+          {user ? (
+            <Route path="/canvas" element={<Canvas />} />
+          ) : (
+            <Route path="/canvas" element={<Navigate to="/" replace />} />
+          )}
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
